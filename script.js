@@ -1,49 +1,52 @@
-function updateStudentWithCustom(student) {
-  student["avg"] = avgOfNumbersArray(student.marks);
-  student["median"] = getMedianaValue(student.marks);
-  return student;
+function Student(name, faculty, marks = []) {
+    this.name = name;
+    this.faculty = faculty;
+    this.marks = marks;
+
+    this.getMax = () => {
+        return Math.max(...this.marks);
+    };
+
+    this.getMin = () => {
+        return Math.min(...this.marks);
+    };
+
+    this.getAvg = () => {
+        return this.marks.reduce((acc, e) => acc + e, 0) / this.marks.length;
+    };
+
+    this.getSum = () => {
+        return this.marks.reduce((acc, e) => acc + e, 0);
+    };
+
+    this.getInfo = () => {
+        return `
+        Student name: ${this.name}
+        Faculty: ${this.faculty}
+        Avg. : ${this.getAvg()}
+        `;
+    };
 }
 
-function avgOfNumbersArray(numbers) {
-  return numbers.reduce((acc, e) => acc + e, 0) / numbers.length;
-}
+// class Student {
+//     constructor(name, faculty, marks = []) {
+//         this.name = name;
+//         this.faculty = faculty;
+//         this.marks = marks;
+//     }
 
-function getMedianaValue(numbers) {
-  let median,
-    medianRepeats = 0;
-  for (let i = 0; i < numbers.length; i++) {
-    let repeats = 0;
-    for (let j = 0; j < numbers.length; j++) {
-      if (numbers[i] === numbers[j]) {
-        repeats++;
-        if (repeats > medianRepeats) {
-          medianRepeats = repeats;
-          median = numbers[i];
-        }
-      }
-    }
-  }
-  return median;
-}
+//     getMax() {
+//         return Math.max(...this.marks);
+//     }
+// }
 
-function getUnsuccessfulStudents(students) {
-  return students.filter((someMark) => someMark.avg < 50);
-}
+const studentA = new Student('Bob Doe', 'Philosophy', [12, 10, 11, 8, 10, 5]);
+const studentB = new Student('John Cooper', 'Math', [6, 7, 3, 8, 12, 5]);
 
-function main() {
-  let list = studentsMock.getStudentList(10);
-  list = list.map(updateStudentWithCustom);
-  console.log(list);
+console.log(studentA.getMax());
+console.log(studentB.getMax());
 
-  if (confirm("Do you want to check the list of less successful students?")) {
-    console.log(getUnsuccessfulStudents(list));
-  }
-  while (confirm("Do you want to add some student to this class?")) {
-    list.push(updateStudentWithCustom(studentsMock.getStudent()));
-  }
-
-  console.log(list);
-  console.log(list.map((e) => `${e.name} | ${e.avg}`).join("\n"));
-}
-
-main();
+const group = [
+    new Student('Bob Doe', 'Philosophy', [12, 10, 11, 8, 10, 5]),
+    new Student('John Cooper', 'Math', [6, 7, 3, 8, 12, 5])
+];
